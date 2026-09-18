@@ -8,7 +8,6 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
   integrations: [mdx(), sitemap()],
 
   fonts: [
@@ -19,6 +18,8 @@ export default defineConfig({
           fallbacks: ['sans-serif'],
       },
 	],
+
+  site: "https://amir-parsa.ir",
 
   vite: {
     plugins: [tailwindcss()],
