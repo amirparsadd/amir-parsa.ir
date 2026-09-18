@@ -1,0 +1,145 @@
+---
+import { Image } from "astro:assets";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../consts";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProfilePictureImage from "../assets/profile-picture.webp";
+import Github from "../assets/socials/github.svg";
+import X from "../assets/socials/x.svg";
+import Telegram from "../assets/socials/telegram.svg";
+import Linkedin from "../assets/socials/linkedin.svg";
+import Instagram from "../assets/socials/instagram.svg";
+import SocialLink from "../components/SocialLink.astro";
+import { calculateAge } from "../lib/age";
+import { experiences } from "../content/experiences" // TODO integrate with content system
+import { getCollection } from "astro:content";
+import FormattedDate from "../components/FormattedDate.astro";
+import Footer from "../components/Footer.astro";
+
+const blogPosts = await getCollection("blog")
+---
+
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <main class="layout px-2">
+    <section class="flex items-center gap-2 my-12">
+      <figure class="max-w-32 relative h-fit group">
+        <Image
+          src={ProfilePictureImage}
+          alt={"A young man in a black shirt sits on a metal structure outdoors, looking to the side with a serious expression. Behind him is an industrial-looking building with corrugated metal roofing and concrete walls."}
+          width={128}
+          class="rounded-full ring ring-offset-2 ring-amber-500 group-hover:ring-offset-[-2] transition-all"
+        />
+        <figcaption
+          class="text-[0.5rem] absolute top-full mt-2 text-center opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          Me in WorldSkills Asia 2025 Selection Competition
+        </figcaption>
+      </figure>
+      <div>
+        <h1 class="text-3xl font-extrabold">Amirparsa Baghdadi</h1>
+        <p class="text-sm font-light">Web Developer & Startup Founder</p>
+        <p class="mb-2 text-xs font-extralight"><a href="mailto:amirparsab9@gmail.com">amirparsab9@gmail.com</a> &bullet; <a href="tel:+989134946047">+98 913 494 6047</a></p>
+        <ul class="flex gap-1">
+          <SocialLink
+            link="https://github.com/amirparsadd"
+            label="Github"
+            svg={Github}
+          />
+          <SocialLink
+            link="https://www.linkedin.com/in/amirparsadd"
+            label="Linkedin"
+            svg={Linkedin}
+          />
+          <SocialLink
+            link="https://t.me/amirparsab90"
+            label="Telegram"
+            svg={Telegram}
+          />
+          <SocialLink
+            link="https://x.com/amirparsab90"
+            label="X (Twitter)"
+            svg={X}
+          />
+          <SocialLink
+            link="https://instagram.com/amirparsab90"
+            label="Instagram"
+            svg={Instagram}
+          />
+        </ul>
+      </div>
+    </section>
+    <section class="prose mb-8">
+      <h2>Introduction</h2>
+      <p>
+        Hey! I'm <strong>Amirparsa</strong>, a <strong
+          >{calculateAge(new Date("2012-01-04T20:30:00.000Z"))}-year-old web
+          developer and startup founder
+        </strong> from Arak, Iran. I enjoy turning ideas into real products, from
+        small experiments and open-source projects to applications built for real
+        users.
+      </p>
+      <p>
+        I'm particularly interested in <strong
+          >full-stack development, backend architecture, and building fast,
+          reliable products with modern web technologies.</strong
+        > I'm also interested in AI and exploring how it can be used to build better
+        products.
+      </p>
+      <p>
+        I've also had the opportunity to win a <strong>gold medal</strong> in Web
+        Technologies at both the <strong
+          >22nd National WorldSkills Competition</strong
+        > and the <strong>3rd Junior National WorldSkills Competition.</strong>
+      </p>
+    </section>
+    <section>
+      <div class="prose">
+        <h2 class="">Experiences</h2>
+        <p>
+          I've been fascinated by computers since I was <strong>7 years old</strong>,
+          when I started programming with <strong>Scratch</strong>. Since then, I've had
+          the chance to explore all kinds of projects and experiences, from developing
+          <strong>Minecraft servers</strong> and experimenting with different technologies
+          to building <strong>polished applications</strong> that people can actually use.
+        </p>
+      </div>
+      <ul class="mt-2 ps-2 flex flex-col gap-2">
+        {
+          experiences.map(experience => (
+            <li>
+              <div class="flex gap-2">
+                <figure class="shrink-0">
+                  <Image width={96} src={experience.image} alt={"Logo" /*TODO better alt*/} class={"corner-squircle rounded-2xl bg-white"}/>
+                </figure>
+                <div class="prose">
+                  <h3 class=""><strong>{experience.role}</strong> @ {experience.company}</h3>
+                  <p class="text-sm font-light">{experience.duration.start} - {experience.duration.end ?? "Present"}</p>
+                  <p>{experience.description}</p>
+                  <a href=""></a>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    <section>
+      <div class="prose">
+        <h2>Blog Posts</h2>
+      </div>
+      <ul class="grid grid-cols-1 md:grid-cols-2 mt-8 gap-2">
+        {
+          blogPosts.map(post => (
+            <li class="border border-amber-800 rounded-xl hover:bg-amber-800 hover:text-amber-50 transition-colors corner-squircle">
+              <a href={"/blog/" + post.id} class="p-4 block">
+                <h3 class="text-2xl font-bold">{post.data.title}</h3>
+                <p class="text-sm font-light mb-2">Published at <FormattedDate date={post.data.date}/></p>
+                <p class="text-sm">{post.data.description}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    <Footer />
+  </main>
+</BaseLayout>

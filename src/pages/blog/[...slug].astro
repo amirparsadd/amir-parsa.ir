@@ -1,0 +1,31 @@
+---
+import { type CollectionEntry, getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	return posts.map((post) => ({
+		params: { slug: post.id },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'blog'>;
+
+const post = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout {...post.data}>
+  <main class="layout px-2 mt-10">
+    <article class="prose">
+      <Content />
+      <div class="flex gap-2 items-center">
+        <button class="block bg-amber-950 text-amber-50 transition-colors hover:bg-transparent border cursor-pointer border-amber-950 hover:text-amber-950 p-2 corner-squircle rounded-2xl">Share this post</button>
+        <span>or</span>
+        <a href="/">Go back to home</a>
+      </div>
+    </article>
+    <Footer />
+  </main>
+</BaseLayout>

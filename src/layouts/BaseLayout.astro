@@ -1,0 +1,17 @@
+---
+import { default as BaseHead, type BaseHeadProps } from '../components/BaseHead.astro';
+
+type Props = BaseHeadProps
+
+const props = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead {...props} />
+	</head>
+	<body class="bg-amber-50 text-amber-800">
+    <slot/>
+	</body>
+</html>

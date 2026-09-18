@@ -1,0 +1,18 @@
+---
+import type { SvgComponent } from 'astro/types'
+
+type Props = {
+  link: string
+  label: string
+  svg: SvgComponent
+}
+
+const {link, label, svg: SVGComponent} = Astro.props
+const SOCIAL_LINK_IMAGE_SIZE = 18
+---
+
+<li>
+  <a href={link} target="_blank" referrerpolicy="no-referrer" aria-label={label}>
+    <SVGComponent width={SOCIAL_LINK_IMAGE_SIZE} height={SOCIAL_LINK_IMAGE_SIZE}/>
+  </a>
+</li>
